@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography'
 import type { TopMenuItem } from './menuConfig'
-import { PAGE_REGISTRY } from '../../pages/pageRegistry'
+import { PAGE_REGISTRY } from './pageRegistry'
 
 type AppContentProps = {
   activeTopItem: TopMenuItem
