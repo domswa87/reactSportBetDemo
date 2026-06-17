@@ -1,16 +1,13 @@
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 
-const SIDE_MENU_ITEMS = ['Football', 'Basketball', 'Tennis', 'Hockey'] as const
-
-type SideMenuItem = (typeof SIDE_MENU_ITEMS)[number]
-
 type SideMenuProps = {
-  activeItem: SideMenuItem
-  onSelect: (item: SideMenuItem) => void
+  items: readonly string[]
+  activeItem: string
+  onSelect: (item: string) => void
 }
 
-export function SideMenu({ activeItem, onSelect }: SideMenuProps) {
+export function SideMenu({ items, activeItem, onSelect }: SideMenuProps) {
   return (
     <Stack
       component="nav"
@@ -24,7 +21,7 @@ export function SideMenu({ activeItem, onSelect }: SideMenuProps) {
         bgcolor: 'grey.50',
       }}
     >
-      {SIDE_MENU_ITEMS.map((item) => (
+      {items.map((item) => (
         <Button
           key={item}
           fullWidth
@@ -45,5 +42,3 @@ export function SideMenu({ activeItem, onSelect }: SideMenuProps) {
     </Stack>
   )
 }
-
-export type { SideMenuItem }

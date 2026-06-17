@@ -1,37 +1,49 @@
 import { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import { MobileShell } from './components/MobileShell'
-import { SideMenu, type SideMenuItem } from './components/SideMenu'
+import { SideMenu } from './components/SideMenu'
 import { TopMenu, type TopMenuItem } from './components/TopMenu'
 
+// Each top tab gets its own list of side buttons.
+const SIDE_MENU_BY_TOP = {
+  Home: ['Featured', 'Popular', 'Today'],
+  Live: ['Football', 'Basketball', 'Tennis'],
+  Account: ['Profile', 'My Bets', 'Settings'],
+} as const satisfies Record<TopMenuItem, readonly string[]>
+
 function App() {
-  // useState keeps data that can change over time (like which button is selected).
   const [activeTopItem, setActiveTopItem] = useState<TopMenuItem>('Home')
-  const [activeSideItem, setActiveSideItem] = useState<SideMenuItem>('Football')
-
-
-  const mainScreen = (
-    <>
-      <Typography variant="h6" gutterBottom>
-        {activeTopItem}
-      </Typography>
-      <Typography color="text.secondary">
-        Selected sport: {activeSideItem}
-      </Typography>
-    </>
+  const [activeSideItem, setActiveSideItem] = useState<string>(
+    SIDE_MENU_BY_TOP.Home[0],
   )
 
+  const sideItems = SIDE_MENU_BY_TOP[activeTopItem]
+
+  function handleTopSelect(item: TopMenuItem) {
+    setActiveTopItem(item)
+    // When the top tab changes, pick the first side button for that tab.
+    setActiveSideItem(SIDE_MENU_BY_TOP[item][0])
+  }
 
   return (
     <MobileShell
       topMenu={
-        <TopMenu activeItem={activeTopItem} onSelect={setActiveTopItem} />
+        <TopMenu activeItem={activeTopItem} onSelect={handleTopSelect} />
       }
       sideMenu={
-        <SideMenu activeItem={activeSideItem} onSelect={setActiveSideItem} />
+        <SideMenu
+          items={sideItems}
+          activeItem={activeSideItem}
+          onSelect={setActiveSideItem}
+        />
       }
     >
-      {mainScreen}
+      <Typography variant="h6" gutterBottom>
+        {activeTopItem}
+      </Typography>
+      <Typography color="text.secondary">
+        {activeSideItem}
+      </Typography>
     </MobileShell>
   )
 }

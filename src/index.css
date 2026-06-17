@@ -1,0 +1,5 @@
+/* Mobile-first page background while developing on desktop. */
+body {
+  margin: 0;
+  background-color: #e8e8e8;
+}
