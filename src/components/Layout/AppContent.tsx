@@ -1,4 +1,3 @@
-import type { ComponentType } from 'react'
 import Typography from '@mui/material/Typography'
 import type { TopMenuItem } from './menuConfig'
 import { PAGE_REGISTRY } from '../../pages/pageRegistry'
@@ -10,9 +9,7 @@ type AppContentProps = {
 
 function AppContent({ activeTopItem, activeSideItem }: AppContentProps) {
   const pagesForTop = PAGE_REGISTRY[activeTopItem]
-  const PageComponent = pagesForTop[
-    activeSideItem as keyof typeof pagesForTop
-  ] as ComponentType | undefined
+  const PageComponent = pagesForTop[activeSideItem]
 
   if (!PageComponent) {
     return <MissingPage />

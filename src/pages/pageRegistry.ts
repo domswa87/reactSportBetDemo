@@ -1,21 +1,19 @@
 import type { ComponentType } from 'react'
-import type { MENU_CONFIG, TopMenuItem } from '../components/Layout/menuConfig'
-import { AccountMyBetsPage } from '../pages/account/AccountMyBetsPage'
+import { AccountMyBetsPage } from './account/AccountMyBetsPage'
 import { AccountProfilePage } from './account/AccountProfilePage'
-import { AccountSettingsPage } from '../pages/account/AccountSettingsPage'
-import { HomeFeaturedPage } from '../pages/home/HomeFeaturedPage'
-import { HomePopularPage } from '../pages/home/HomePopularPage'
-import { HomeTodayPage } from '../pages/home/HomeTodayPage'
-import { LiveBasketballPage } from '../pages/live/LiveBasketballPage'
-import { LiveFootballPage } from '../pages/live/LiveFootballPage'
-import { LiveTennisPage } from '../pages/live/LiveTennisPage'
+import { AccountSettingsPage } from './account/AccountSettingsPage'
+import { HomeFeaturedPage } from './home/HomeFeaturedPage'
+import { HomePopularPage } from './home/HomePopularPage'
+import { HomeTodayPage } from './home/HomeTodayPage'
+import { LiveBasketballPage } from './live/LiveBasketballPage'
+import { LiveFootballPage } from './live/LiveFootballPage'
+import { LiveTennisPage } from './live/LiveTennisPage'
 
-// Nested lookup: top tab first, then side item.
-// Duplicate side labels (e.g. "Today" under Home and Live) are fine —
-// they live under different top keys.
-export const PAGE_REGISTRY: {
-  [K in TopMenuItem]: Record<(typeof MENU_CONFIG)[K][number], ComponentType>
-} = {
+// Simple type: top tab → side button → page component
+type PageMap = Record<string, Record<string, ComponentType>>
+
+// Which page to show for each top + side button combination.
+export const PAGE_REGISTRY: PageMap = {
   Home: {
     Featured: HomeFeaturedPage,
     Popular: HomePopularPage,
