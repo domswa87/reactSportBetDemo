@@ -1,49 +1,30 @@
 import { useState } from 'react'
-import Typography from '@mui/material/Typography'
-import { MobileShell } from './components/MobileShell'
-import { SideMenu } from './components/SideMenu'
-import { TopMenu, type TopMenuItem } from './components/TopMenu'
-
-// Each top tab gets its own list of side buttons.
-const SIDE_MENU_BY_TOP = {
-  Home: ['Featured', 'Popular', 'Today'],
-  Live: ['Football', 'Basketball', 'Tennis'],
-  Account: ['Profile', 'My Bets', 'Settings'],
-} as const satisfies Record<TopMenuItem, readonly string[]>
-
+import { MobileShell } from './components/Layout/MobileShell'
+import { SideMenu } from './components/Layout/SideMenu'
+import { TopMenu } from './components/Layout/TopMenu'
+import { MENU_CONFIG, TOP_MENU_ITEMS, type TopMenuItem } from './components/Layout/menuConfig'
+import AppContent from './components/Layout/AppContent'
+      
 function App() {
-  const [activeTopItem, setActiveTopItem] = useState<TopMenuItem>('Home')
+  const [activeTopItem, setActiveTopItem] = useState<TopMenuItem>(TOP_MENU_ITEMS[0])
   const [activeSideItem, setActiveSideItem] = useState<string>(
-    SIDE_MENU_BY_TOP.Home[0],
+    MENU_CONFIG[TOP_MENU_ITEMS[0]][0],
   )
 
-  const sideItems = SIDE_MENU_BY_TOP[activeTopItem]
+  const sideItems = MENU_CONFIG[activeTopItem]
 
   function handleTopSelect(item: TopMenuItem) {
     setActiveTopItem(item)
-    // When the top tab changes, pick the first side button for that tab.
-    setActiveSideItem(SIDE_MENU_BY_TOP[item][0])
+    setActiveSideItem(MENU_CONFIG[item][0])
   }
 
+  const topMenu = <TopMenu activeItem={activeTopItem} onSelect={handleTopSelect} />
+  const sideMenu = <SideMenu items={sideItems} activeItem={activeSideItem} onSelect={setActiveSideItem} />
+
+
   return (
-    <MobileShell
-      topMenu={
-        <TopMenu activeItem={activeTopItem} onSelect={handleTopSelect} />
-      }
-      sideMenu={
-        <SideMenu
-          items={sideItems}
-          activeItem={activeSideItem}
-          onSelect={setActiveSideItem}
-        />
-      }
-    >
-      <Typography variant="h6" gutterBottom>
-        {activeTopItem}
-      </Typography>
-      <Typography color="text.secondary">
-        {activeSideItem}
-      </Typography>
+    <MobileShell topMenu={topMenu} sideMenu={sideMenu} >
+      <AppContent activeTopItem={activeTopItem} activeSideItem={activeSideItem} />
     </MobileShell>
   )
 }

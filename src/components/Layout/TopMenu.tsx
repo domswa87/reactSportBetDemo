@@ -1,11 +1,6 @@
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-
-// Step 1: Define the menu items as data (not JSX yet).
-// Keeping labels in an array makes it easy to add or rename buttons later.
-const TOP_MENU_ITEMS = ['Home', 'Live', 'Account'] as const
-
-type TopMenuItem = (typeof TOP_MENU_ITEMS)[number]
+import { TOP_MENU_ITEMS, type TopMenuItem } from './menuConfig'
 
 type TopMenuProps = {
   activeItem: TopMenuItem
@@ -42,4 +37,4 @@ export function TopMenu({ activeItem, onSelect }: TopMenuProps) {
   )
 }
 
-export type { TopMenuItem }
+export type { TopMenuItem } from './menuConfig'
