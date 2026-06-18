@@ -25,7 +25,7 @@ function App() {
 
   return (
     <MobileShell topMenu={topMenu} sideMenu={sideMenu}>
-      <AppContent activeTopItem={activeTopItem} activeSideItem={activeSideItem} />
+      <AppContent topItem={activeTopItem} sideItem={activeSideItem} />
     </MobileShell>
   )
 }

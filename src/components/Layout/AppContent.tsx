@@ -1,35 +1,19 @@
-import Typography from '@mui/material/Typography'
-import { APP_PAGES } from '../../config/menuConfig'
-import type { ComponentType } from 'react'
+import { getPage } from '../../utils/getPage'
+import PageNotFound from '../../pages/PageNotFound'
 
 type AppContentProps = {
-  activeTopItem: string
-  activeSideItem: string
+  topItem: string
+  sideItem: string
 }
 
-function AppContent({ activeTopItem, activeSideItem }: AppContentProps) {
-  const PageComponent = getPage(activeTopItem, activeSideItem)
+function AppContent({ topItem, sideItem }: AppContentProps) {
+  const ActivePage = getPage(topItem, sideItem)
 
-  if (!PageComponent) {
-    return <MissingPage />
+  if (!ActivePage) {
+    return <PageNotFound />
   }
 
-  return <PageComponent />
-}
-
-function MissingPage() {
-  return (
-    <Typography color="error">
-      Page not found. Add it to APP_PAGES in menuConfig.ts.
-    </Typography>
-  )
-}
-
-function getPage(
-  top: string,
-  side: string,
-): ComponentType | undefined {
-  return APP_PAGES[top]?.[side]
+  return <ActivePage />
 }
 
 export default AppContent
