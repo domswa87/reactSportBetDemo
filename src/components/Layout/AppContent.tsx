@@ -1,3 +1,4 @@
+import type { ComponentType } from 'react'
 import { AccountMyBetsPage } from '../../pages/account/AccountMyBetsPage'
 import { AccountProfilePage } from '../../pages/account/AccountProfilePage'
 import { AccountSettingsPage } from '../../pages/account/AccountSettingsPage'
@@ -9,11 +10,23 @@ import { LiveFootballPage } from '../../pages/live/LiveFootballPage'
 import { LiveTennisPage } from '../../pages/live/LiveTennisPage'
 import PageNotFound from '../../pages/PageNotFound'
 
-export const MENU_CONFIG = {
-  HomeDS: ['FeaturedDS', 'Popular', 'Today'],
-  Live: ['Football', 'Basketball', 'Tennis'],
-  Account: ['Profile', 'Bets', 'Settings'],
-} as const
+export const PAGE_COMPONENTS: Record<string, Record<string, ComponentType>> = {
+  HomeDS: {
+    FeaturedDS: HomeFeaturedPage,
+    Popular: HomePopularPage,
+    Today: HomeTodayPage,
+  },
+  Live: {
+    Football: LiveFootballPage,
+    Basketball: LiveBasketballPage,
+    Tennis: LiveTennisPage,
+  },
+  Account: {
+    Profile: AccountProfilePage,
+    Bets: AccountMyBetsPage,
+    Settings: AccountSettingsPage,
+  },
+}
 
 type AppContentProps = {
   topItem: string
@@ -21,23 +34,8 @@ type AppContentProps = {
 }
 
 function AppContent({ topItem, sideItem }: AppContentProps) {
-  switch (topItem) 
-  {
-    case 'HomeDS': switch (sideItem) {
-        case 'FeaturedDS': return <HomeFeaturedPage />
-        case 'Popular': return <HomePopularPage />
-        case 'Today': return <HomeTodayPage />} break
-    case 'Live': switch (sideItem) {
-        case 'Football': return <LiveFootballPage />
-        case 'Basketball': return <LiveBasketballPage />
-        case 'Tennis': return <LiveTennisPage />} break
-    case 'Account': switch (sideItem) {
-        case 'Profile': return <AccountProfilePage />
-        case 'Bets': return <AccountMyBetsPage />
-        case 'Settings': return <AccountSettingsPage />} break
-  }
-
-  return <PageNotFound />
+  const Component = PAGE_COMPONENTS[topItem]?.[sideItem] ?? PageNotFound
+  return <Component />
 }
 
 export default AppContent

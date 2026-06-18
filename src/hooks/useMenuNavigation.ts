@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { MENU_CONFIG } from '../components/Layout/AppContent'
+import { PAGE_COMPONENTS } from '../components/Layout/AppContent'
+
 function getSideItems(topItem: string): string[] {
-  const items = MENU_CONFIG[topItem as keyof typeof MENU_CONFIG]
-  return items ? [...items] : []
+  const pages = PAGE_COMPONENTS[topItem]
+  return pages ? Object.keys(pages) : []
 }
 
 function getFirstSideItem(topItem: string) {
@@ -10,7 +11,7 @@ function getFirstSideItem(topItem: string) {
 }
 
 export function useMenuNavigation() {
-  const topItems = Object.keys(MENU_CONFIG)
+  const topItems = Object.keys(PAGE_COMPONENTS)
   const initialTopItem = topItems[0]
   const initialSideItem = getFirstSideItem(initialTopItem)
 
