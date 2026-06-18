@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography'
 function PageNotFound() {
   return (
     <Typography color="error">
-      Page not found. Add it to APP_PAGES in config/menuConfig.ts.
+      Page not found. Check menuConfig.ts and AppContent.tsx.
     </Typography>
   )
 }

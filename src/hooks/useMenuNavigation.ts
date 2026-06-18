@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { APP_PAGES } from '../config/menuConfig'
-
+import { MENU_CONFIG } from '../config/menuConfig'
 function getSideItems(topItem: string): string[] {
-  return Object.keys(APP_PAGES[topItem])
+  const items = MENU_CONFIG[topItem as keyof typeof MENU_CONFIG]
+  return items ? [...items] : []
 }
 
 function getFirstSideItem(topItem: string) {
@@ -10,7 +10,7 @@ function getFirstSideItem(topItem: string) {
 }
 
 export function useMenuNavigation() {
-  const topItems = Object.keys(APP_PAGES)
+  const topItems = Object.keys(MENU_CONFIG)
   const initialTopItem = topItems[0]
   const initialSideItem = getFirstSideItem(initialTopItem)
 

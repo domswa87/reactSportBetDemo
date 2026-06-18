@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-import { APP_PAGES } from '../../config/menuConfig'
+import { MENU_CONFIG } from '../../config/menuConfig'
 
 type TopMenuProps = {
   activeItem: string
@@ -11,8 +11,8 @@ type TopMenuProps = {
 // Props are inputs passed from the parent (App).
 export function TopMenu({ activeItem, onSelect }: TopMenuProps) {
 
-  const topMenuItems = Object.keys(APP_PAGES);
-  
+  const topMenuItems = Object.keys(MENU_CONFIG)
+
   return (
     // Stack lays children in a row or column with spacing between them.
     <Stack
