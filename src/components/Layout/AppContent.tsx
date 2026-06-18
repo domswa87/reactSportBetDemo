@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography'
-import { APP_PAGES } from './menuConfig'
+import { APP_PAGES } from '../../config/menuConfig'
 import type { ComponentType } from 'react'
 
 type AppContentProps = {

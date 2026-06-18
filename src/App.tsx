@@ -2,17 +2,19 @@ import { useState } from 'react'
 import { MobileShell } from './components/Layout/MobileShell'
 import { SideMenu } from './components/Layout/SideMenu'
 import { TopMenu } from './components/Layout/TopMenu'
-import {
-  getSideMenuItems,
-  TOP_MENU_ITEMS,
-} from './components/Layout/menuConfig'
+import { getSideMenuItems, } from './components/Layout/menuUtils'
 import AppContent from './components/Layout/AppContent'
+import { APP_PAGES } from './config/menuConfig'
+
+
 
 function App() {
-  const [activeTopItem, setActiveTopItem] = useState<string>(TOP_MENU_ITEMS[0])
-  const [activeSideItem, setActiveSideItem] = useState(
-    getSideMenuItems(TOP_MENU_ITEMS[0])[0],
-  )
+
+const initialTopItem = Object.keys(APP_PAGES)[0];
+const initialSideItem = getSideMenuItems(initialTopItem)[0];
+
+const [activeTopItem, setActiveTopItem] = useState(initialTopItem);
+const [activeSideItem, setActiveSideItem] = useState(initialSideItem);
 
   const sideItems = getSideMenuItems(activeTopItem)
 
