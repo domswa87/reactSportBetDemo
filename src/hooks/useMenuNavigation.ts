@@ -24,11 +24,15 @@ export function useMenuNavigation() {
     setActiveSideItem(getFirstSideItem(item))
   }
 
+  function handleSideSelect(item: string) {
+    setActiveSideItem(item)
+  }
+
   return {
     activeTopItem,
     activeSideItem,
     sideItems,
     handleTopSelect,
-    setActiveSideItem,
+    handleSideSelect,
   }
 }

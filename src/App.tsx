@@ -11,11 +11,17 @@ function App() {
     activeSideItem,
     sideItems,
     handleTopSelect,
-    setActiveSideItem,
+    handleSideSelect,
   } = useMenuNavigation()
 
   const topMenu = <TopMenu activeItem={activeTopItem} onSelect={handleTopSelect} />
-  const sideMenu = <SideMenu items={sideItems} activeItem={activeSideItem} onSelect={setActiveSideItem} />
+  const sideMenu = (
+    <SideMenu
+      items={sideItems}
+      activeItem={activeSideItem}
+      onSelect={handleSideSelect}
+    />
+  )
 
   return (
     <MobileShell topMenu={topMenu} sideMenu={sideMenu}>
