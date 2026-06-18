@@ -1,6 +1,5 @@
 import Typography from '@mui/material/Typography'
-import type { TopMenuItem } from './menuConfig'
-import { PAGE_REGISTRY } from './pageRegistry'
+import { getPage, type TopMenuItem } from './menuConfig'
 
 type AppContentProps = {
   activeTopItem: TopMenuItem
@@ -8,8 +7,7 @@ type AppContentProps = {
 }
 
 function AppContent({ activeTopItem, activeSideItem }: AppContentProps) {
-  const pagesForTop = PAGE_REGISTRY[activeTopItem]
-  const PageComponent = pagesForTop[activeSideItem]
+  const PageComponent = getPage(activeTopItem, activeSideItem)
 
   if (!PageComponent) {
     return <MissingPage />
@@ -21,7 +19,7 @@ function AppContent({ activeTopItem, activeSideItem }: AppContentProps) {
 function MissingPage() {
   return (
     <Typography color="error">
-      Page not found. Add it to PAGE_REGISTRY in src/pages/pageRegistry.ts.
+      Page not found. Add it to APP_PAGES in menuConfig.ts.
     </Typography>
   )
 }
