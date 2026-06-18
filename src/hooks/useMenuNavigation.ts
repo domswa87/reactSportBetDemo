@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MENU_CONFIG } from '../config/menuConfig'
+import { MENU_CONFIG } from '../components/Layout/AppContent'
 function getSideItems(topItem: string): string[] {
   const items = MENU_CONFIG[topItem as keyof typeof MENU_CONFIG]
   return items ? [...items] : []
@@ -31,6 +31,7 @@ export function useMenuNavigation() {
   return {
     activeTopItem,
     activeSideItem,
+    topItems,
     sideItems,
     handleTopSelect,
     handleSideSelect,

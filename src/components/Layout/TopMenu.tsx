@@ -1,18 +1,13 @@
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-import { MENU_CONFIG } from '../../config/menuConfig'
 
 type TopMenuProps = {
+  items: string[]
   activeItem: string
   onSelect: (item: string) => void
 }
 
-// Step 2: A React component is a function that returns UI.
-// Props are inputs passed from the parent (App).
-export function TopMenu({ activeItem, onSelect }: TopMenuProps) {
-
-  const topMenuItems = Object.keys(MENU_CONFIG)
-
+export function TopMenu({ items, activeItem, onSelect }: TopMenuProps) {
   return (
     // Stack lays children in a row or column with spacing between them.
     <Stack
@@ -26,7 +21,7 @@ export function TopMenu({ activeItem, onSelect }: TopMenuProps) {
         overflowX: 'auto',
       }}
     >
-      {topMenuItems.map((item) => (
+      {items.map((item) => (
         <Button
           key={item}
           variant={activeItem === item ? 'contained' : 'outlined'}

@@ -9,12 +9,19 @@ function App() {
   const {
     activeTopItem,
     activeSideItem,
+    topItems,
     sideItems,
     handleTopSelect,
     handleSideSelect,
   } = useMenuNavigation()
 
-  const topMenu = <TopMenu activeItem={activeTopItem} onSelect={handleTopSelect} />
+  const topMenu = (
+    <TopMenu
+      items={topItems}
+      activeItem={activeTopItem}
+      onSelect={handleTopSelect}
+    />
+  )
   const sideMenu = (
     <SideMenu
       items={sideItems}

@@ -9,6 +9,12 @@ import { LiveFootballPage } from '../../pages/live/LiveFootballPage'
 import { LiveTennisPage } from '../../pages/live/LiveTennisPage'
 import PageNotFound from '../../pages/PageNotFound'
 
+export const MENU_CONFIG = {
+  HomeDS: ['FeaturedDS', 'Popular', 'Today'],
+  Live: ['Football', 'Basketball', 'Tennis'],
+  Account: ['Profile', 'Bets', 'Settings'],
+} as const
+
 type AppContentProps = {
   topItem: string
   sideItem: string
