@@ -9,9 +9,6 @@ import { LiveBasketballPage } from '../../pages/live/LiveBasketballPage'
 import { LiveFootballPage } from '../../pages/live/LiveFootballPage'
 import { LiveTennisPage } from '../../pages/live/LiveTennisPage'
 
-// Single source of truth:
-// top tab → { side button label → page component }
-// Side menu labels are the object keys. No duplicate strings elsewhere.
 export const APP_PAGES: Record<string, Record<string, ComponentType>> = {
   HomeDS: {
     FeaturedDS: HomeFeaturedPage,
@@ -25,22 +22,16 @@ export const APP_PAGES: Record<string, Record<string, ComponentType>> = {
   },
   Account: {
     Profile: AccountProfilePage,
-    'My Bets': AccountMyBetsPage,
+    Bets: AccountMyBetsPage,
     Settings: AccountSettingsPage,
   },
 }
 
-export type TopMenuItem = keyof typeof APP_PAGES
 
-export const TOP_MENU_ITEMS = Object.keys(APP_PAGES) as TopMenuItem[]
+export const TOP_MENU_ITEMS = Object.keys(APP_PAGES) as string[]
 
-export function getSideMenuItems(top: TopMenuItem): string[] {
+export function getSideMenuItems(top: string): string[] {
   return Object.keys(APP_PAGES[top])
 }
 
-export function getPage(
-  top: TopMenuItem,
-  side: string,
-): ComponentType | undefined {
-  return APP_PAGES[top]?.[side]
-}
+

@@ -1,8 +1,9 @@
 import Typography from '@mui/material/Typography'
-import { getPage, type TopMenuItem } from './menuConfig'
+import { APP_PAGES } from './menuConfig'
+import type { ComponentType } from 'react'
 
 type AppContentProps = {
-  activeTopItem: TopMenuItem
+  activeTopItem: string
   activeSideItem: string
 }
 
@@ -22,6 +23,13 @@ function MissingPage() {
       Page not found. Add it to APP_PAGES in menuConfig.ts.
     </Typography>
   )
+}
+
+function getPage(
+  top: string,
+  side: string,
+): ComponentType | undefined {
+  return APP_PAGES[top]?.[side]
 }
 
 export default AppContent

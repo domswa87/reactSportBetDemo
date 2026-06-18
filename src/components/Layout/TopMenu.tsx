@@ -1,10 +1,10 @@
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-import { TOP_MENU_ITEMS, type TopMenuItem } from './menuConfig'
+import { TOP_MENU_ITEMS } from './menuConfig'
 
 type TopMenuProps = {
-  activeItem: TopMenuItem
-  onSelect: (item: TopMenuItem) => void
+  activeItem: string
+  onSelect: (item: string) => void
 }
 
 // Step 2: A React component is a function that returns UI.
@@ -36,5 +36,3 @@ export function TopMenu({ activeItem, onSelect }: TopMenuProps) {
     </Stack>
   )
 }
-
-export type { TopMenuItem } from './menuConfig'
