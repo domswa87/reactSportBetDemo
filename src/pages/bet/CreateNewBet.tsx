@@ -48,7 +48,6 @@ export function CreateNewBet() {
         label="Home team"
         value={homeTeam}
         onChange={(e) => setHomeTeam(e.target.value)}
-        placeholder="Poland"
         fullWidth
       />
 
@@ -56,7 +55,6 @@ export function CreateNewBet() {
         label="Away team"
         value={awayTeam}
         onChange={(e) => setAwayTeam(e.target.value)}
-        placeholder="Germany"
         fullWidth
       />
 
