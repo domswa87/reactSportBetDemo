@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { PAGE_COMPONENTS } from '../components/Layout/AppContent'
+import { PAGE_COMPONENTS } from '../config/pageComponents'
 
 function getSideItems(topItem: string): string[] {
   const pages = PAGE_COMPONENTS[topItem]

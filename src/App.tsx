@@ -1,7 +1,7 @@
 import { MobileShell } from './components/Layout/MobileShell'
 import { SideMenu } from './components/Layout/SideMenu'
 import { TopMenu } from './components/Layout/TopMenu'
-import AppContent from './components/Layout/AppContent'
+import PageView from './components/Layout/PageView'
 import { useMenuNavigation } from './hooks/useMenuNavigation'
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
 
   return (
     <MobileShell topMenu={topMenu} sideMenu={sideMenu}>
-      <AppContent topItem={activeTopItem} sideItem={activeSideItem} />
+      <PageView topItem={activeTopItem} sideItem={activeSideItem} />
     </MobileShell>
   )
 }
