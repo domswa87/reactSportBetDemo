@@ -1,5 +1,5 @@
-import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
+import { AppButton } from '../ui/AppButton'
 
 type SideMenuProps = {
   items: readonly string[]
@@ -22,14 +22,13 @@ export function SideMenu({ items, activeItem, onSelect }: SideMenuProps) {
       }}
     >
       {items.map((item) => (
-        <Button
+        <AppButton
           key={item}
           fullWidth
-          variant={activeItem === item ? 'contained' : 'text'}
+          isActive={activeItem === item}
           onClick={() => onSelect(item)}
           sx={{
             justifyContent: 'flex-start',
-            px: 1,
             fontSize: '0.75rem',
             lineHeight: 1.2,
             whiteSpace: 'normal',
@@ -37,7 +36,7 @@ export function SideMenu({ items, activeItem, onSelect }: SideMenuProps) {
           }}
         >
           {item}
-        </Button>
+        </AppButton>
       ))}
     </Stack>
   )

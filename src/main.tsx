@@ -4,19 +4,7 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
 import './index.css'
 import App from './App.tsx'
 
-const theme = createTheme({
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          // Mobile-friendly touch target (about 44px tall).
-          minHeight: 44,
-          textTransform: 'none',
-        },
-      },
-    },
-  },
-})
+const theme = createTheme()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

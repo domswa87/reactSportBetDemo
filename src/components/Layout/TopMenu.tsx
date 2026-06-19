@@ -1,5 +1,5 @@
-import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
+import { AppButton } from '../ui/AppButton'
 
 type TopMenuProps = {
   items: string[]
@@ -9,7 +9,6 @@ type TopMenuProps = {
 
 export function TopMenu({ items, activeItem, onSelect }: TopMenuProps) {
   return (
-    // Stack lays children in a row or column with spacing between them.
     <Stack
       direction="row"
       spacing={1}
@@ -17,19 +16,17 @@ export function TopMenu({ items, activeItem, onSelect }: TopMenuProps) {
         p: 1,
         borderBottom: 1,
         borderColor: 'divider',
-        // On small screens, allow horizontal scroll instead of squishing buttons.
         overflowX: 'auto',
       }}
     >
       {items.map((item) => (
-        <Button
+        <AppButton
           key={item}
-          variant={activeItem === item ? 'contained' : 'outlined'}
+          isActive={activeItem === item}
           onClick={() => onSelect(item)}
-          sx={{ flexShrink: 0, minWidth: 88 }}
         >
           {item}
-        </Button>
+        </AppButton>
       ))}
     </Stack>
   )
