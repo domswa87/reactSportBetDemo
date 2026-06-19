@@ -2,29 +2,31 @@ import { useState } from 'react'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { TimePicker } from '@mui/x-date-pickers/TimePicker'
+import type { Dayjs } from 'dayjs'
 import { AppButton } from '../../components/ui/AppButton'
 import type { Event } from '../../types/event'
-
-function formatEventDateTime(value: string) {
-  return new Date(value).toLocaleString('pl-PL', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-}
+import { formatEventDateTime } from '../../utils/dateFormat'
 
 export function CreateNewBet() {
   const [homeTeam, setHomeTeam] = useState('')
   const [awayTeam, setAwayTeam] = useState('')
-  const [eventDateTime, setEventDateTime] = useState('')
+  const [eventDate, setEventDate] = useState<Dayjs | null>(null)
+  const [eventTime, setEventTime] = useState<Dayjs | null>(null)
   const [events, setEvents] = useState<Event[]>([])
 
   function handleAddEvent() {
-    if (!homeTeam.trim() || !awayTeam.trim() || !eventDateTime) {
+    if (!homeTeam.trim() || !awayTeam.trim() || !eventDate || !eventTime) {
       return
     }
+
+    const eventDateTime = eventDate
+      .hour(eventTime.hour())
+      .minute(eventTime.minute())
+      .second(0)
+      .millisecond(0)
+      .toISOString()
 
     const newEvent: Event = {
       id: crypto.randomUUID(),
@@ -37,7 +39,8 @@ export function CreateNewBet() {
 
     setHomeTeam('')
     setAwayTeam('')
-    setEventDateTime('')
+    setEventDate(null)
+    setEventTime(null)
   }
 
   return (
@@ -58,13 +61,21 @@ export function CreateNewBet() {
         fullWidth
       />
 
-      <TextField
-        label="Date and time"
-        type="datetime-local"
-        value={eventDateTime}
-        onChange={(e) => setEventDateTime(e.target.value)}
-        fullWidth
-        slotProps={{ inputLabel: { shrink: true } }}
+      <DatePicker
+        label="Date"
+        value={eventDate}
+        onChange={(newValue) => setEventDate(newValue)}
+        format="DD-MM-YYYY"
+        slotProps={{ textField: { fullWidth: true } }}
+      />
+
+      <TimePicker
+        label="Time"
+        value={eventTime}
+        onChange={(newValue) => setEventTime(newValue)}
+        ampm={false}
+        format="HH:mm"
+        slotProps={{ textField: { fullWidth: true } }}
       />
 
       <AppButton onClick={handleAddEvent}>Add event</AppButton>
