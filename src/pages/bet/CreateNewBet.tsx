@@ -2,6 +2,8 @@ import { useState } from 'react'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import Snackbar from '@mui/material/Snackbar'
+import Alert from '@mui/material/Alert'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import type { Dayjs } from 'dayjs'
@@ -15,6 +17,7 @@ export function CreateNewBet() {
   const [eventDate, setEventDate] = useState<Dayjs | null>(null)
   const [eventTime, setEventTime] = useState<Dayjs | null>(null)
   const [events, setEvents] = useState<Event[]>([])
+  const [showSuccessToast, setShowSuccessToast] = useState(false)
 
   function handleAddEvent() {
     if (!homeTeam.trim() || !awayTeam.trim() || !eventDate || !eventTime) {
@@ -41,6 +44,7 @@ export function CreateNewBet() {
     setAwayTeam('')
     setEventDate(null)
     setEventTime(null)
+    setShowSuccessToast(true)
   }
 
   return (
@@ -92,6 +96,21 @@ export function CreateNewBet() {
           </Typography>
         ))
       )}
+      <Snackbar
+        open={showSuccessToast}
+        autoHideDuration={3000}
+        onClose={() => setShowSuccessToast(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          severity="success"
+          variant="filled"
+          onClose={() => setShowSuccessToast(false)}
+          sx={{ width: '100%' }}
+        >
+          New bet added
+        </Alert>
+      </Snackbar>
     </Stack>
   )
 }
