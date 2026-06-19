@@ -1,6 +1,8 @@
 import MuiButton from '@mui/material/Button'
 import type { ButtonProps } from '@mui/material/Button'
 
+const MENU_BUTTON_MIN_WIDTH = 120
+
 type AppButtonProps = ButtonProps & {
   isActive?: boolean
 }
@@ -16,12 +18,12 @@ export function AppButton({
       variant={isActive ? 'contained' : 'outlined'}
       sx={{
         flexShrink: 0,
-        minWidth: 88,
+        minWidth: MENU_BUTTON_MIN_WIDTH,
         minHeight: 44,
         textTransform: 'none',
         ...sx,
       }}
-      {...props}    
+      {...props}
     >
       {children}
     </MuiButton>

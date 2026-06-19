@@ -2,7 +2,7 @@ import Stack from '@mui/material/Stack'
 import { AppButton } from '../ui/AppButton'
 
 type SideMenuProps = {
-  items: readonly string[]
+  items: string[]
   activeItem: string
   onSelect: (item: string) => void
 }
@@ -13,9 +13,10 @@ export function SideMenu({ items, activeItem, onSelect }: SideMenuProps) {
       component="nav"
       spacing={1}
       sx={{
-        width: 96,
         flexShrink: 0,
         p: 1,
+        width: 'fit-content',
+        alignItems: 'flex-start',
         borderRight: 1,
         borderColor: 'divider',
         bgcolor: 'grey.50',
@@ -24,16 +25,8 @@ export function SideMenu({ items, activeItem, onSelect }: SideMenuProps) {
       {items.map((item) => (
         <AppButton
           key={item}
-          fullWidth
           isActive={activeItem === item}
           onClick={() => onSelect(item)}
-          sx={{
-            justifyContent: 'flex-start',
-            fontSize: '0.75rem',
-            lineHeight: 1.2,
-            whiteSpace: 'normal',
-            textAlign: 'left',
-          }}
         >
           {item}
         </AppButton>
