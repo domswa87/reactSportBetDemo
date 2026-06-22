@@ -8,15 +8,14 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import type { Dayjs } from 'dayjs'
 import { AppButton } from '../../components/ui/AppButton'
-import type { Event } from '../../types/event'
-import { formatEventDateTime } from '../../utils/dateFormat'
+import { useEvents } from '../../context/EventsContext'
 
 export function CreateNewBet() {
+  const { addEvent } = useEvents()
   const [homeTeam, setHomeTeam] = useState('')
   const [awayTeam, setAwayTeam] = useState('')
   const [eventDate, setEventDate] = useState<Dayjs | null>(null)
   const [eventTime, setEventTime] = useState<Dayjs | null>(null)
-  const [events, setEvents] = useState<Event[]>([])
   const [showSuccessToast, setShowSuccessToast] = useState(false)
 
   function handleAddEvent() {
@@ -31,14 +30,12 @@ export function CreateNewBet() {
       .millisecond(0)
       .toISOString()
 
-    const newEvent: Event = {
+    addEvent({
       id: crypto.randomUUID(),
       homeTeam: homeTeam.trim(),
       awayTeam: awayTeam.trim(),
       eventDateTime,
-    }
-
-    setEvents((currentEvents) => [...currentEvents, newEvent])
+    })
 
     setHomeTeam('')
     setAwayTeam('')
@@ -84,18 +81,6 @@ export function CreateNewBet() {
 
       <AppButton onClick={handleAddEvent}>Add event</AppButton>
 
-      <Typography variant="subtitle1">Events list</Typography>
-
-      {events.length === 0 ? (
-        <Typography color="text.secondary">No events yet.</Typography>
-      ) : (
-        events.map((event) => (
-          <Typography key={event.id}>
-            {event.homeTeam} - {event.awayTeam} -{' '}
-            {formatEventDateTime(event.eventDateTime)}
-          </Typography>
-        ))
-      )}
       <Snackbar
         open={showSuccessToast}
         autoHideDuration={3000}
