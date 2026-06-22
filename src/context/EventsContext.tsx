@@ -1,16 +1,20 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 import type { Event } from '../types/event'
 
-type EventsContextValue = {
+type EventsProviderProps = {
+  children: ReactNode
+}
+
+type EventsContextType = {
   events: Event[]
   addEvent: (event: Event) => void
   updateEvent: (event: Event) => void
   deleteEvent: (id: string) => void
 }
 
-const EventsContext = createContext<EventsContextValue | null>(null)
+const EventsContext = createContext<EventsContextType | null>(null)
 
-export function EventsProvider({ children }: { children: ReactNode }) {
+export function EventsProvider({ children }: EventsProviderProps) {
   const [events, setEvents] = useState<Event[]>([])
 
   function addEvent(event: Event) {
@@ -18,11 +22,13 @@ export function EventsProvider({ children }: { children: ReactNode }) {
   }
 
   function updateEvent(updatedEvent: Event) {
-    setEvents(
-      (currentEvents) =>
-      currentEvents.map((event) =>
-        event.id === updatedEvent.id ? updatedEvent : event,
-      ),
+    setEvents((currentEvents) =>
+      currentEvents.map((event) => {
+        if (event.id === updatedEvent.id) {
+          return updatedEvent
+        }
+        return event
+      }),
     )
   }
 
@@ -32,19 +38,26 @@ export function EventsProvider({ children }: { children: ReactNode }) {
     )
   }
 
+  const value = {
+    events,
+    addEvent,
+    updateEvent,
+    deleteEvent,
+  }
+
   return (
-    <EventsContext.Provider
-      value={{ events, addEvent, updateEvent, deleteEvent }}
-    >
+    <EventsContext.Provider value={value}>
       {children}
     </EventsContext.Provider>
   )
 }
 
 export function useEvents() {
-  const context = useContext(EventsContext)
-  if (!context) {
+  const value = useContext(EventsContext)
+
+  if (!value) {
     throw new Error('useEvents must be used inside EventsProvider')
   }
-  return context
+
+  return value
 }
