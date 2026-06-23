@@ -9,12 +9,14 @@ import { LiveFootballPage } from '../pages/live/LiveFootballPage'
 import { LiveTennisPage } from '../pages/live/LiveTennisPage'
 import { CreateNewEvent } from '../pages/event/CreateNewEvent'
 import { AllEventsList } from '../pages/event/AllEventsList'
+import { ImportEvents } from '../pages/event/ImportEvents'
 
 // top tab → side button → page component
 export const PAGE_COMPONENTS: Record<string, Record<string, ComponentType>> = {
   Events: {
     'Create event': CreateNewEvent,
     'All events': AllEventsList,
+    'Import Events': ImportEvents,
     Events: ManageEvents,
     Grid: EventsGrid,
   },
