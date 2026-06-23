@@ -10,6 +10,7 @@ type EventsContextType = {
   addEvent: (event: Event) => void
   updateEvent: (event: Event) => void
   deleteEvent: (id: string) => void
+  replaceEvents: (events: Event[]) => void
 }
 
 const EventsContext = createContext<EventsContextType | null>(null)
@@ -38,11 +39,16 @@ export function EventsProvider({ children }: EventsProviderProps) {
     )
   }
 
+  function replaceEvents(newEvents: Event[]) {
+    setEvents(newEvents)
+  }
+
   const value = {
     events,
     addEvent,
     updateEvent,
     deleteEvent,
+    replaceEvents,
   }
 
   return (
