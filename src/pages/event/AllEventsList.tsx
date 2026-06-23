@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { getAllEvents } from '../../api/eventsApi'
 import type { Event } from '../../types/event'
@@ -25,31 +26,46 @@ export function AllEventsList() {
   }, [])
 
   if (isLoading) {
-    return <Typography>Loading events...</Typography>
+    return (
+      <Typography variant="body2" color="text.secondary">
+        Loading events...
+      </Typography>
+    )
   }
 
   if (error) {
-    return <Typography color="error">{error}</Typography>
+    return (
+      <Typography variant="body2" color="error">
+        {error}
+      </Typography>
+    )
   }
 
   return (
-    <div>
-      <Typography variant="h6" gutterBottom>
+    <Stack spacing={1}>
+      <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
         All Events
       </Typography>
 
       {events.length === 0 ? (
-        <Typography color="text.secondary">No events yet.</Typography>
+        <Typography variant="body2" color="text.secondary">
+          No events yet.
+        </Typography>
       ) : (
-        <ul>
+        <Stack spacing={0.5}>
           {events.map((event) => (
-            <li key={event.id}>
-              {event.homeTeam} vs {event.awayTeam} -{' '}
+            <Typography
+              key={event.id}
+              variant="caption"
+              component="p"
+              sx={{ lineHeight: 1.4, m: 0 }}
+            >
+              {event.homeTeam} vs {event.awayTeam} ·{' '}
               {formatEventDateTime(event.eventDateTime)}
-            </li>
+            </Typography>
           ))}
-        </ul>
+        </Stack>
       )}
-    </div>
+    </Stack>
   )
 }

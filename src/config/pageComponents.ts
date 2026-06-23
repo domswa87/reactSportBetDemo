@@ -4,8 +4,6 @@ import { AccountProfilePage } from '../pages/account/AccountProfilePage'
 import { AccountSettingsPage } from '../pages/account/AccountSettingsPage'
 import { EventsGrid } from '../pages/event/EventsGrid'
 import { ManageEvents } from '../pages/event/ManageEvents'
-import { HomePopularPage } from '../pages/event/HomePopularPage'
-import { HomeTodayPage } from '../pages/event/HomeTodayPage'
 import { LiveBasketballPage } from '../pages/live/LiveBasketballPage'
 import { LiveFootballPage } from '../pages/live/LiveFootballPage'
 import { LiveTennisPage } from '../pages/live/LiveTennisPage'
@@ -19,8 +17,6 @@ export const PAGE_COMPONENTS: Record<string, Record<string, ComponentType>> = {
     'All events': AllEventsList,
     Events: ManageEvents,
     Grid: EventsGrid,
-    PleaceBet: HomePopularPage,
-    AddResult: HomeTodayPage,
   },
   Live: {
     Football: LiveFootballPage,

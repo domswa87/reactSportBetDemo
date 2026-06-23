@@ -27,6 +27,18 @@ export function SideMenu({ items, activeItem, onSelect }: SideMenuProps) {
           key={item}
           isActive={activeItem === item}
           onClick={() => onSelect(item)}
+          sx={{
+            width: 72,
+            minWidth: 72,
+            maxWidth: 72,
+            minHeight: 52,
+            px: 0.5,
+            py: 0.75,
+            fontSize: '1 rem',
+            lineHeight: 1.2,
+            whiteSpace: 'normal',
+            textAlign: 'center',
+          }}
         >
           {item}
         </AppButton>
