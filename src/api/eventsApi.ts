@@ -21,3 +21,14 @@ export async function createEvent(request: CreateEventRequest): Promise<Event> {
 
   return response.json()
 }
+
+export async function getAllEvents(): Promise<Event[]> {
+  const response = await fetch(`${API_BASE_URL}/api/events`)
+
+  if (!response.ok) {
+    const message = await response.text()
+      throw new Error(message || 'Failed to get all events')
+  }
+
+  return response.json()
+}
