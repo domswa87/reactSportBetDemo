@@ -11,7 +11,7 @@ import { createEvent } from '../../api/eventsApi'
 import { AppButton } from '../../components/ui/AppButton'
 import { useEvents } from '../../context/EventsContext'
 
-export function CreateNewBet() {
+export function CreateNewEvent() {
   const { addEvent } = useEvents()
   const [homeTeam, setHomeTeam] = useState('')
   const [awayTeam, setAwayTeam] = useState('')
