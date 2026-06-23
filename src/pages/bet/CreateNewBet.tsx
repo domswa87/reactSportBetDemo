@@ -7,6 +7,7 @@ import Alert from '@mui/material/Alert'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import type { Dayjs } from 'dayjs'
+import { createEvent } from '../../api/eventsApi'
 import { AppButton } from '../../components/ui/AppButton'
 import { useEvents } from '../../context/EventsContext'
 
@@ -17,8 +18,10 @@ export function CreateNewBet() {
   const [eventDate, setEventDate] = useState<Dayjs | null>(null)
   const [eventTime, setEventTime] = useState<Dayjs | null>(null)
   const [showSuccessToast, setShowSuccessToast] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  function handleAddEvent() {
+  async function handleAddEvent() {
     if (!homeTeam.trim() || !awayTeam.trim() || !eventDate || !eventTime) {
       return
     }
@@ -30,18 +33,30 @@ export function CreateNewBet() {
       .millisecond(0)
       .toISOString()
 
-    addEvent({
-      id: crypto.randomUUID(),
-      homeTeam: homeTeam.trim(),
-      awayTeam: awayTeam.trim(),
-      eventDateTime,
-    })
+    setErrorMessage('')
+    setIsSubmitting(true)
 
-    setHomeTeam('')
-    setAwayTeam('')
-    setEventDate(null)
-    setEventTime(null)
-    setShowSuccessToast(true)
+    try {
+      const createdEvent = await createEvent({
+        homeTeam: homeTeam.trim(),
+        awayTeam: awayTeam.trim(),
+        eventDateTime,
+      })
+
+      addEvent(createdEvent)
+
+      setHomeTeam('')
+      setAwayTeam('')
+      setEventDate(null)
+      setEventTime(null)
+      setShowSuccessToast(true)
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error ? error.message : 'Failed to create event',
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -79,7 +94,11 @@ export function CreateNewBet() {
         slotProps={{ textField: { fullWidth: true } }}
       />
 
-      <AppButton onClick={handleAddEvent}>Add event</AppButton>
+      {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+
+      <AppButton onClick={handleAddEvent} disabled={isSubmitting}>
+        {isSubmitting ? 'Adding...' : 'Add event'}
+      </AppButton>
 
       <Snackbar
         open={showSuccessToast}
