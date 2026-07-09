@@ -9,10 +9,8 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import type { Dayjs } from 'dayjs'
 import { createEvent } from '../../api/eventsApi'
 import { AppButton } from '../../components/ui/AppButton'
-import { useEvents } from '../../context/EventsContext'
 
 export function CreateNewEvent() {
-  const { addEvent } = useEvents()
   const [homeTeam, setHomeTeam] = useState('')
   const [awayTeam, setAwayTeam] = useState('')
   const [eventDate, setEventDate] = useState<Dayjs | null>(null)
@@ -37,13 +35,11 @@ export function CreateNewEvent() {
     setIsSubmitting(true)
 
     try {
-      const createdEvent = await createEvent({
+      await createEvent({
         homeTeam: homeTeam.trim(),
         awayTeam: awayTeam.trim(),
         eventDateTime,
       })
-
-      addEvent(createdEvent)
 
       setHomeTeam('')
       setAwayTeam('')

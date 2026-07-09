@@ -8,8 +8,6 @@ import {
   type CreateEventRequest,
 } from '../../api/eventsApi'
 import { AppButton } from '../../components/ui/AppButton'
-import { useEvents } from '../../context/EventsContext'
-import type { Event } from '../../types/event'
 import { formatEventDateTime } from '../../utils/dateFormat'
 
 function parseImportFile(content: string): CreateEventRequest[] {
@@ -57,7 +55,6 @@ function parseImportFile(content: string): CreateEventRequest[] {
 }
 
 export function ImportEvents() {
-  const { events, replaceEvents } = useEvents()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [fileName, setFileName] = useState('')
   const [previewEvents, setPreviewEvents] = useState<CreateEventRequest[]>([])
@@ -107,9 +104,6 @@ export function ImportEvents() {
 
     try {
       const createdEvents = await createManyEvents(previewEvents)
-      const nextEvents: Event[] = [...events, ...createdEvents]
-
-      replaceEvents(nextEvents)
       setImportedCount(createdEvents.length)
       setPreviewEvents([])
       setFileName('')

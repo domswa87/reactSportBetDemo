@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Alert from '@mui/material/Alert'
 import Snackbar from '@mui/material/Snackbar'
 import Stack from '@mui/material/Stack'
@@ -10,8 +10,13 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import {
+  createManyEvents,
+  deleteEvent,
+  getAllEvents,
+  updateEvent,
+} from '../../api/eventsApi'
 import { AppButton } from '../../components/ui/AppButton'
-import { useEvents } from '../../context/EventsContext'
 import type { Event } from '../../types/event'
 import {
   createEmptyGridRow,
@@ -64,10 +69,30 @@ function gridRowsToEvents(rows: EventGridRow[]): Event[] | null {
 }
 
 export function EventsGrid() {
-  const { events, replaceEvents } = useEvents()
-  const [rows, setRows] = useState<EventGridRow[]>(() => eventsToGridRows(events))
+  const serverIdsRef = useRef<Set<string>>(new Set())
+  const [rows, setRows] = useState<EventGridRow[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isSaving, setIsSaving] = useState(false)
   const [saveError, setSaveError] = useState('')
   const [showSuccessToast, setShowSuccessToast] = useState(false)
+
+  useEffect(() => {
+    async function loadEvents() {
+      try {
+        const events = await getAllEvents()
+        serverIdsRef.current = new Set(events.map((event) => event.id))
+        setRows(eventsToGridRows(events))
+      } catch (error) {
+        setSaveError(
+          error instanceof Error ? error.message : 'Failed to load events',
+        )
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadEvents()
+  }, [])
 
   function updateCell(
     rowId: string,
@@ -92,7 +117,7 @@ export function EventsGrid() {
     })
   }
 
-  function handleSave() {
+  async function handleSave() {
     const savedEvents = gridRowsToEvents(rows)
 
     if (!savedEvents) {
@@ -103,9 +128,57 @@ export function EventsGrid() {
     }
 
     setSaveError('')
-    replaceEvents(savedEvents)
-    setRows(eventsToGridRows(savedEvents))
-    setShowSuccessToast(true)
+    setIsSaving(true)
+
+    try {
+      const savedIds = new Set(savedEvents.map((event) => event.id))
+      const serverIds = serverIdsRef.current
+
+      for (const id of serverIds) {
+        if (!savedIds.has(id)) {
+          await deleteEvent(id)
+        }
+      }
+
+      const toCreate = []
+
+      for (const event of savedEvents) {
+        const request = {
+          homeTeam: event.homeTeam,
+          awayTeam: event.awayTeam,
+          eventDateTime: event.eventDateTime,
+        }
+
+        if (serverIds.has(event.id)) {
+          await updateEvent(event.id, request)
+        } else {
+          toCreate.push(request)
+        }
+      }
+
+      if (toCreate.length > 0) {
+        await createManyEvents(toCreate)
+      }
+
+      const freshEvents = await getAllEvents()
+      serverIdsRef.current = new Set(freshEvents.map((event) => event.id))
+      setRows(eventsToGridRows(freshEvents))
+      setShowSuccessToast(true)
+    } catch (error) {
+      setSaveError(
+        error instanceof Error ? error.message : 'Failed to save events',
+      )
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  if (isLoading) {
+    return (
+      <Typography variant="body2" color="text.secondary">
+        Loading events...
+      </Typography>
+    )
   }
 
   return (
@@ -182,8 +255,8 @@ export function EventsGrid() {
 
       <Stack direction="row" spacing={1}>
         <AppButton onClick={addRow}>Add row</AppButton>
-        <AppButton isActive onClick={handleSave}>
-          Save all
+        <AppButton isActive onClick={handleSave} disabled={isSaving}>
+          {isSaving ? 'Saving...' : 'Save all'}
         </AppButton>
       </Stack>
 
