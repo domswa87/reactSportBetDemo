@@ -7,15 +7,15 @@ import { ManageEvents } from '../pages/event/ManageEvents'
 import { LiveBasketballPage } from '../pages/live/LiveBasketballPage'
 import { LiveFootballPage } from '../pages/live/LiveFootballPage'
 import { LiveTennisPage } from '../pages/live/LiveTennisPage'
-import { CreateNewEvent } from '../pages/event/CreateNewEvent'
-import { AllEventsList } from '../pages/event/AllEventsList'
+import { CreateEvent } from '../pages/event/CreateEvent'
+import { AllEvents } from '../pages/event/AllEvents'
 import { ImportEvents } from '../pages/event/ImportEvents'
 
 // top tab → side button → page component
 export const PAGE_COMPONENTS: Record<string, Record<string, ComponentType>> = {
   Events: {
-    'Create event': CreateNewEvent,
-    'All events': AllEventsList,
+    'Create event': CreateEvent,
+    'All events': AllEvents,
     'Import Events': ImportEvents,
     Events: ManageEvents,
     Grid: EventsGrid,

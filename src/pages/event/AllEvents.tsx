@@ -5,7 +5,7 @@ import { getAllEvents } from '../../api/eventsApi'
 import type { Event } from '../../types/event'
 import { formatEventDateTime } from '../../utils/dateFormat'
 
-export function AllEventsList() {
+export function AllEvents() {
   const [events, setEvents] = useState<Event[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')

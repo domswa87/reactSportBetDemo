@@ -10,7 +10,7 @@ import type { Dayjs } from 'dayjs'
 import { createEvent } from '../../api/eventsApi'
 import { AppButton } from '../../components/ui/AppButton'
 
-export function CreateNewEvent() {
+export function CreateEvent() {
   const [homeTeam, setHomeTeam] = useState('')
   const [awayTeam, setAwayTeam] = useState('')
   const [eventDate, setEventDate] = useState<Dayjs | null>(null)
@@ -21,6 +21,7 @@ export function CreateNewEvent() {
 
   async function handleAddEvent() {
     if (!homeTeam.trim() || !awayTeam.trim() || !eventDate || !eventTime) {
+      setErrorMessage('Please fill in home team, away team, date and time.')
       return
     }
 
